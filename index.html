@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<meta charset="utf-8">
+	<meta name="vieuwpoort" content="width=device-widht,initial-scale=1.0">
+	<title>RPG Challenge</title>
+
+	<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+
+	
+
+
+
+</head>
+<body>
+	<header class="header">
+		<progress class="vieP1 vieGreen" id="HealthBarP1" value="100" max="100">
+			<div>vie p1</div>
+		</progress>
+
+		
+		<div class="console">
+			<ul id="ulList">
+				
+			</ul>
+		</div>
+
+		<progress class="vieP2 vieGreen" id="HealthBarP2" value="100" max="100">
+			<div>vie p2</div>
+		</progress>
+	
+	</header> 
+	
+	<main class="mainChoice" id="choices">
+
+		<div class="choice" id="choiceP1">
+			<div class="input">
+				<input type="text" name="pseudo" id="pseudoPlayer1" placeholder="Votre pseudo" required>
+			</div>
+
+			<div class="flex">
+				<figure>
+		        	<img class="carousel"  id="P1race" src="assets/js/sprites/humanRight.png" alt="human" />
+		    	</figure>
+
+				<div class="dropdown">
+				  <button class="dropbtn">Object</button>
+				  <select id="itemP1choice" class="dropdown-content">
+				    	<option value="boots">Boots</option>
+						<option value="cape">Staff</option>
+						<option value="sword">Sword</option>
+						<option value="bow">Bow</option>
+				  </select>
+				</div>
+			</div>
+		    
+
+		    <button class="btnchoice" type="button" id="next">Next</button>
+			<button class="btnchoice confirm" id="confirmP1">confirmation</button>
+		</div>
+
+		<div id="awesome" class="sprite right" hidden>
+			<img id="persoP1" src="">
+		</div>
+		<div id="awesome2" class="sprite left" hidden>
+			<img id="persoP2" src="">
+		</div>
+
+		<div class="choice" id="choiceP2">
+			<div class="input">
+				<input type="text" name="pseudo" id="pseudoPalyer2" placeholder="Votre pseudo" required>
+			</div>
+			<div class="flex">
+				 <figure>
+			        <img class="carouselPlayer2 " id="P2race" src="assets/js/sprites/humanRight.png" alt="human" />
+			    </figure>
+				<div class="dropdown">
+					<button class="dropbtn">Object</button>
+					<div class="dropdown-content">
+						<select id="itemP2choice" class="dropdown-content">
+							<option id="option" value="boots">Boots</option>
+							<option id="option" value="Staff">Cape</option>
+							<option id="option" value="Sword">Sword</option>
+							<option id="option" value="Bow">Bow</option>
+						</select>
+					</div>
+				</div>
+			</div>
+
+		    <button class="btnchoice" type="button" id="nextPlayer2">Next</button>
+			<button class="btnchoice confirm" id="confirmP2">confirmation</button>
+		</div>
+
+	</main> 
+
+	<footer>
+		<div class="displayNone btnP1" id="btnP1">
+			<button id="attack1">Attack</button>
+			<button id="heal1">Heal</button>
+			<button id="surrender1">Yield</button>
+		</div>
+		<div class="displayNone btnP2 " id="btnP2">
+			<button id="attack2">Attack</button>
+			<button id="heal2">Heal</button>
+			<button id="surrender2">Yield</button>
+		</div>
+	</footer>
+
+<script type="text/javascript" src="assets/js/main.js"></script>
+<script type="text/javascript" src="assets/js/character.js"></script>
+
+</body>
+
+</html>
