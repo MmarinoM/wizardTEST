@@ -24,9 +24,10 @@ class Character{
 
 
 
-    constructor(race,item){
+    constructor(race,item,name){
         this.race = race;
         this.item = item;
+        this.name = name;
         
     
     
@@ -37,14 +38,14 @@ class Character{
         this.currenthealth = this.currenthealth + totalHeal;
 
         console.log("vie récuperée :"+totalHeal);
-        addConsole("vie récuperée :"+totalHeal);
+        addConsole("vie récuperée par "+this.name+" : "+totalHeal);
         
 
         if(this.currenthealth>=this.maxHealth){
             this.currenthealth = this.maxHealth;
         }
         console.log("vie restante"+this.currenthealth);
-        addConsole("vie restante"+this.currenthealth);
+        addConsole("vie restante de"+this.name+" : "+this.currenthealth);
 
 
     };
@@ -130,23 +131,47 @@ let image = document.getElementById("persoP1");
 // VARIABLE QUI DEMARRE LA GAME 
 let start = 0;
 document.getElementById("confirmP1").addEventListener("click",function(){
+    player1ChoiceName = document.getElementById("pseudoPlayer1").value;
+    if(player1ChoiceName == ""){
+        player1ChoiceName = "P1";
+    }
+    console.log(player1ChoiceName);
     player1ChoiceRace = document.getElementById("P1race").alt;
     player1ChoiceItem = document.getElementById("itemP1choice").value;
     start++;
     if(start == 2){
         document.getElementById("btnP1").style.display = "flex";
         document.getElementById("btnP2").style.display = "flex";
+        document.getElementById("HealthBarP1").style.display = "block";
+        document.getElementById("HealthBarP2").style.display = "block";
+        document.getElementById("console").style.display = "block";
+        document.getElementById("HealthBarP1").className = "vieP1 vieGreen animate__animated animate__fadeInLeftBig";
+        document.getElementById("HealthBarP2").className = "vieP2 vieGreen animate__animated animate__fadeInRightBig";
+        document.getElementById("console").className = "console animate__animated animate__fadeInDownBig";
         game();
     }
 
 });
 document.getElementById("confirmP2").addEventListener("click",function(){
+    player2ChoiceName = document.getElementById("pseudoPlayer2").value;
+    if(player2ChoiceName == ""){
+        player2ChoiceName = "P2";
+    }
     player2ChoiceRace = document.getElementById("P2race").alt;
     player2ChoiceItem = document.getElementById("itemP2choice").value;
     start++
     if(start == 2){
         document.getElementById("btnP1").style.display = "flex";
         document.getElementById("btnP2").style.display = "flex";
+        document.getElementById("btnP1").className = "btnP1 animate__animated animate__fadeInUp";
+        document.getElementById("btnP2").className = "btnP2 animate__animated animate__fadeInUp";
+        
+        document.getElementById("HealthBarP1").style.display = "block";
+        document.getElementById("HealthBarP2").style.display = "block";
+        document.getElementById("console").style.display = "block";
+        document.getElementById("HealthBarP1").className = "vieP1 vieGreen animate__animated animate__fadeInLeftBig";
+        document.getElementById("HealthBarP2").className = "vieP2 vieGreen animate__animated animate__fadeInRightBig";
+        document.getElementById("console").className = "console animate__animated animate__fadeInDownBig";
         game();
     }
 });
@@ -209,12 +234,12 @@ function game(){
     
     
     
-     let player1 = new Character(player1ChoiceRace,player1ChoiceItem);
+     let player1 = new Character(player1ChoiceRace,player1ChoiceItem,player1ChoiceName);
     player1.setObjetBoost();
     player1.setRaceBoost();
      player1.displayChar();
     
-    let player2 = new Character(player2ChoiceRace,player2ChoiceItem);
+    let player2 = new Character(player2ChoiceRace,player2ChoiceItem,player2ChoiceName);
     player2.setObjetBoost();
     player2.setRaceBoost();
     player2.displayChar();
@@ -278,10 +303,11 @@ function game(){
             if(randomHitTwice <= player1.twiceHit){
                 randomHitTwice = 1;
                 console.log('hit twice!!!!!!!!!');
-                addConsole("hit TWICEEE !!!");
+                addConsole(player1.name+" hit TWICEEE !!!");
                 reflectElvesAndBoots(player1,player2);
                 setLife(player1,player2);
             }else{
+                addConsole(player1.name+" didn't attack twice...");
                 attackButtonP1.disabled = true;
                 healButtonP1.disabled = true;
                 yieldButtonP1.disabled = true;
@@ -310,13 +336,13 @@ function game(){
             player1.currenthealth = player1.currenthealth - Math.round(player1.currenthealth*player2.lifeSteal);
             player2.currenthealth = player2.currenthealth + Math.round(player1.currenthealth*player2.lifeSteal);
             console.log("vie volée = "+Math.round(player1.currenthealth*player2.lifeSteal));
-            addConsole("vie volée = "+Math.round(player1.currenthealth*player2.lifeSteal));
+            addConsole("vie volée par "+player2.name+" = "+Math.round(player1.currenthealth*player2.lifeSteal));
             
             if(player1.currenthealth<=0){
                 setLife(player1,player2);
                 endGame();
                 alert('player 2 WON');
-                addConsole('player 2 WON');
+                addConsole(player2.name+' WON !');
                 
                 
             }
@@ -324,9 +350,9 @@ function game(){
                 player2.currenthealth = player2.maxHealth;
             }
             console.log('vie JOUEUR 1 debut du tour : '+player1.currenthealth);
-            addConsole('vie JOUEUR 1 debut du tour : '+player1.currenthealth);
+            addConsole('vie de '+player1.name+' debut du tour : '+player1.currenthealth);
             console.log('vie JOUEUR 2 debut du tour : '+player2.currenthealth);
-            addConsole('vie JOUEUR 2 debut du tour : '+player2.currenthealth);
+            addConsole('vie '+player2.name+' debut du tour : '+player2.currenthealth);
             setLife(player1,player2);
         }
         
@@ -337,11 +363,12 @@ function game(){
             if(randomHitTwice <= player2.twiceHit){
                 randomHitTwice = 1;
                 console.log('hit twice!!!!!!!!!');
-                addConsole("hit TWICEEE !!!");
+                addConsole(player2.name+" hit TWICEEE !!!");
                 reflectElvesAndBoots(player2,player1);
                 setLife(player2,player1);
     
             }else{
+                addConsole(player2.name+" didn't attack twice...");
                 attackButtonP1.disabled = false;
                 healButtonP1.disabled = false;
                 yieldButtonP1.disabled = false;
@@ -373,7 +400,7 @@ function game(){
             if(player2.currenthealth<=0){
                 endGame();
                 alert('player 1 WON');
-                addConsole('player 1 WON');
+                addConsole(player1.name+' WON !!!');
                 setLife(player2,player1);
             }
             if(player1.currenthealth>=player1.maxHealth){
@@ -395,27 +422,65 @@ function game(){
         attackButtonP2.disabled = true;
         healButtonP2.disabled = true;
         yieldButtonP2.disabled = true;
+        attackButtonP1.style.display = "none";
+        attackButtonP2.style.display = "none";
+        healButtonP1.style.display = "none";
+        healButtonP2.style.display = "none";
+        yieldButtonP1.style.display = "none";
+        yieldButtonP2.style.display = "none";
+        //AFFICHER LA BOX REPLAY
+        document.getElementById("replay").style.display = "block";
+        document.getElementById("replayYES").addEventListener('click', function(){
+            location.reload();
+            console.log("bonjour");
+        });
+        document.getElementById("replayNO").addEventListener('click', function(){
+            document.getElementById("replay").style.display = "none";
+        });
         
     }
+    // function replay(){
+        
+    //     if (confirm('Replay ?')) {
+    //         // Save it!
+    //         location.reload();
+    //       } else {
+    //         // Do nothing!
+           
+    //       }
+    // }
 
     function checkEndTurn(playerAttack, playerDefense){
         if(playerDefense.currenthealth<=0){
             playerDefense.currenthealth = 0;
-            endGame();
-            alert(playerAttack.race+" WON");
-            addConsole(playerAttack.race+" WON");
+            
+            
             if(playerAttack == player1){
                 document.getElementById("persoP1").src = "assets/js/sprites/win.svg";
                 document.getElementById("persoP2").src = "assets/js/sprites/loose.svg";
+                document.getElementById("persoP1").className = "animate__animated animate__flash";
+                document.getElementById("persoP2").className = "animate__animated animate__flash";
+            
             }else{
                 document.getElementById("persoP1").src = "assets/js/sprites/loose.svg";
                 document.getElementById("persoP2").src = "assets/js/sprites/win.svg";
+                document.getElementById("persoP1").className = "animate__animated animate__flash";
+                document.getElementById("persoP2").className = "animate__animated animate__flash";
+                
             }
+
+            
+            addConsole(playerAttack.name+" WON");
+            endGame();
+            
+
         }else if(playerAttack.currenthealth <= 0){
             playerAttack.currenthealth = 0;
+            
+            
+            addConsole(playerDefense.name+" WON");
             endGame();
-            alert(playerDefense.race+" WON");
-            addConsole(playerDefense.race+" WON");
+            
             
            
         }
@@ -434,22 +499,22 @@ function game(){
             if(randomDodgeBoots <= playerDefense.dodgeChance){
                 playerDefense.currenthealth = playerDefense.currenthealth;
                 console.log("DODGE !!! vie restante de "+playerDefense.race+" : "+playerDefense.currenthealth);
-                addConsole("DODGE !!! vie restante de "+playerDefense.race+" : "+playerDefense.currenthealth);
+                addConsole("DODGE !!! vie restante de "+playerDefense.name+" : "+playerDefense.currenthealth);
             }else{
                 playerDefense.currenthealth = playerDefense.currenthealth - Math.round(playerAttack.damageTotal * playerDefense.maxDamageTaken);
                 console.log("MISS DODGE ! vie restante au "+playerDefense.race+" : "+playerDefense.currenthealth);
-                addConsole("MISS DODGE ! vie restante au "+playerDefense.race+" : "+playerDefense.currenthealth);
+                addConsole("MISS DODGE ! vie restante à "+playerDefense.name+" : "+playerDefense.currenthealth);
             }
         }else{
                 playerDefense.currenthealth = playerDefense.currenthealth - Math.round(playerAttack.damageTotal * playerDefense.maxDamageTaken);
                 console.log("HIT ! vie restante au "+playerDefense.race+" : "+playerDefense.currenthealth);
-                addConsole("HIT ! vie restante au "+playerDefense.race+" : "+playerDefense.currenthealth);
+                addConsole("HIT ! vie restante à "+playerDefense.name+" : "+playerDefense.currenthealth);
         }
     }
     function reflectElvesAndBoots(playerAttack,playerDefense){
         let finalDamage = Math.round(playerAttack.damageTotal*playerDefense.maxDamageTaken);
     
-        addConsole("dégat infligé par"+playerAttack.race+" : "+finalDamage);
+        addConsole("dégat infligé par "+playerAttack.name+" : "+finalDamage);
         console.log("dégat infligé par "+playerAttack.race+" : "+finalDamage);
         if(playerDefense.race == 'elves'){
             let randomReflect = Math.random();
@@ -458,13 +523,13 @@ function game(){
                 playerDefense.currenthealth = playerDefense.currenthealth;
                 playerAttack.currenthealth = playerAttack.currenthealth - reflectDamage;
                 console.log("REFLECT !! "+playerAttack.race+" recois "+reflectDamage+" dégats, il lui reste : "+playerAttack.currenthealth);
-                addConsole("REFLECT !! "+playerAttack.race+" recois "+reflectDamage+" dégats, il lui reste : "+playerAttack.currenthealth);
+                addConsole("REFLECT !! "+playerAttack.name+" recois "+reflectDamage+" dégats, il lui reste : "+playerAttack.currenthealth);
                 checkEndTurn(playerAttack,playerDefense);
                 
                
             }else{
-                console.log("miss the reflect ...");
-                addConsole("miss the reflect ...");
+                console.log(playerDefense.name+" miss the reflect ...");
+                addConsole(playerDefense.name+" miss the reflect ...");
                 dodgeBoots(playerAttack,playerDefense);
                 checkEndTurn(playerAttack,playerDefense);
                 
@@ -524,6 +589,7 @@ function game(){
     
     
 };
+ 
 
 //   switch(player1ChoiceRace){
 //     case 'human' : 
